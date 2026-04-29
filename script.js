@@ -21,7 +21,7 @@ async function downloadVideo() {
     `;
 
     try {
-        const response = await fetch('http://localhost:3000/api/download', {
+        const response = await fetch( '/api/download', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ url })

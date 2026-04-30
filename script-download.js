@@ -2,36 +2,45 @@ const contentDiv = document.getElementById('download-content');
 const rawData = localStorage.getItem('videoData');
 
 if (rawData) {
-    const data = JSON.parse(rawData);
-    
-    // Mengecek struktur data berdasarkan Screenshot 2026-04-30 101516.jpg
-    if (data.contents && data.contents.length > 0) {
-        const item = data.contents[0];
-        const metadata = item.metadata;
-        const video = item.videos && item.videos.length > 0 ? item.videos[0] : null;
+    try {
+        const data = JSON.parse(rawData);
+        console.log("Data diterima:", data); // Untuk cek di inspect element (F12)
 
-        if (video && video.url) {
-            const title = metadata.title || "TikTok Video";
-            const cover = metadata.cover || "";
+        // Mencari item konten (bisa langsung di data atau di dalam data.contents)
+        const contents = data.contents || (data.r && data.r.contents);
+        
+        if (contents && contents.length > 0) {
+            const item = contents[0];
+            const metadata = item.metadata || {};
+            
+            // Mencari link video (mengikuti struktur Screenshot 2026-04-30 101516.jpg)
+            const video = item.videos && item.videos.length > 0 ? item.videos[0] : null;
 
-            contentDiv.innerHTML = `
-                <div style="text-align: center;">
-                    <img src="${cover}" style="max-width: 100%; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                    <h3 style="margin: 15px 0;">${title}</h3>
-                    <a href="${video.url}" target="_blank" class="btn-save" rel="noopener noreferrer">
-                        📥 KLIK UNTUK SIMPAN VIDEO
-                    </a>
-                    <p style="font-size: 12px; color: #666; margin-top: 10px;">
-                        Tip: Jika video terbuka di tab baru, klik titik tiga lalu pilih 'Download'.
-                    </p>
-                </div>
-            `;
+            if (video && video.url) {
+                const title = metadata.title || "TikTok Video";
+                const cover = metadata.cover || "";
+
+                contentDiv.innerHTML = `
+                    <div style="text-align: center;">
+                        <img src="${cover}" style="max-width: 100%; border-radius: 15px; margin-bottom: 15px;">
+                        <h3 style="margin-bottom: 20px;">${title}</h3>
+                        <a href="${video.url}" target="_blank" class="btn-save" style="display: block; padding: 15px; background: #25D366; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">
+                            📥 SIMPAN VIDEO SEKARANG
+                        </a>
+                        <p style="font-size: 12px; margin-top: 15px; color: #666;">
+                            Jika video terbuka tapi tidak mendownload, tahan/klik kanan pada video lalu pilih "Download Video".
+                        </p>
+                    </div>
+                `;
+            } else {
+                contentDiv.innerHTML = "<p>❌ Maaf, link video tidak ditemukan dalam data.</p>";
+            }
         } else {
-            contentDiv.innerHTML = "<p>❌ Link video tidak ditemukan dalam data API.</p>";
+            contentDiv.innerHTML = "<p>❌ Format data berubah. Cek link TikTok kamu kembali.</p>";
         }
-    } else {
-        contentDiv.innerHTML = "<p>❌ Format data tidak dikenal atau video kosong.</p>";
+    } catch (e) {
+        contentDiv.innerHTML = "<p>❌ Terjadi kesalahan saat membaca data.</p>";
     }
 } else {
-    contentDiv.innerHTML = "<p>⚠️ Tidak ada data. Silakan kembali ke halaman utama.</p>";
+    contentDiv.innerHTML = "<p>⚠️ Data kosong. Silakan kembali dan masukkan link lagi.</p>";
 }

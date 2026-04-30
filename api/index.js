@@ -16,7 +16,7 @@ app.post('/api/download', async (req, res) => {
             url: 'https://tik-tok-video-downloader-api.p.rapidapi.com/vid/index',
             headers: {
                 'content-type': 'application/x-www-form-urlencoded',
-                'X-RapidAPI-Key': 3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52'
+                'X-RapidAPI-Key': 3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52
                 'X-RapidAPI-Host': 'tik-tok-video-downloader-api.p.rapidapi.com'
             },
             data: new URLSearchParams({ url: url })

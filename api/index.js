@@ -11,26 +11,23 @@ app.post('/api/download', async (req, res) => {
         const { url } = req.body;
         if (!url) return res.status(400).json({ error: "URL tidak boleh kosong" });
 
-        // LOGIKA DOWNLOAD TIKTOK (Sesuai kode yang kamu punya sebelumnya)
         const options = {
             method: 'POST',
-            url: 'https://tik-tok-video-downloader-api.p.rapidapi.com/vid/index', // Contoh jika pakai API
+            url: 'https://tik-tok-video-downloader-api.p.rapidapi.com/vid/index',
             headers: {
                 'content-type': 'application/x-www-form-urlencoded',
-                'X-RapidAPI-Key': 'MASUKKAN_KEY_KAMU_DISINI',
+                'X-RapidAPI-Key': 'GANTI_DENGAN_API_KEY_MILIKMU', // MASUKKAN KEY KAMU DI SINI
                 'X-RapidAPI-Host': 'tik-tok-video-downloader-api.p.rapidapi.com'
             },
             data: new URLSearchParams({ url: url })
         };
 
         const response = await axios.request(options);
-        
-        // Kirim data hasil download ke frontend
         res.json(response.data);
 
     } catch (error) {
         console.error("Error Detail:", error.message);
-        res.status(500).json({ error: "Gagal mengambil video, coba lagi nanti." });
+        res.status(500).json({ error: "Gagal mengambil video. Cek API Key atau link video." });
     }
 });
 

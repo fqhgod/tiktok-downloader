@@ -6,22 +6,32 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ROUTE UTAMA
 app.post('/api/download', async (req, res) => {
     try {
         const { url } = req.body;
-        if (!url) return res.status(400).json({ error: "URL kosong" });
+        if (!url) return res.status(400).json({ error: "URL tidak boleh kosong" });
 
-        // LOGIKA DOWNLOAD KAMU DISINI (Gunakan kode yang sudah berhasil di localhost)
-        // ... kode axios kamu ...
+        // LOGIKA DOWNLOAD TIKTOK (Sesuai kode yang kamu punya sebelumnya)
+        const options = {
+            method: 'POST',
+            url: 'https://tik-tok-video-downloader-api.p.rapidapi.com/vid/index', // Contoh jika pakai API
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'X-RapidAPI-Key': 'MASUKKAN_KEY_KAMU_DISINI',
+                'X-RapidAPI-Host': 'tik-tok-video-downloader-api.p.rapidapi.com'
+            },
+            data: new URLSearchParams({ url: url })
+        };
+
+        const response = await axios.request(options);
         
-        res.json({ title: "Judul", videoUrl: "LinkVideo", cover: "LinkCover" });
+        // Kirim data hasil download ke frontend
+        res.json(response.data);
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Gagal mengambil video" });
+        console.error("Error Detail:", error.message);
+        res.status(500).json({ error: "Gagal mengambil video, coba lagi nanti." });
     }
 });
 
-// WAJIB: Export app, BUKAN app.listen
 module.exports = app;

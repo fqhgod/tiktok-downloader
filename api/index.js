@@ -19,7 +19,7 @@ app.post('/api/download', async (req, res) => {
             },
             headers: {
                 // Gunakan Key dari screenshot kamu
-                'x-rapidapi-key': '3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52',
+                'x-rapidapi-key': '3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52,
                 'x-rapidapi-host': 'social-media-video-downloader.p.rapidapi.com'
             }
         };

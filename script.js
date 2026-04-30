@@ -21,7 +21,7 @@ async function downloadVideo() {
     `;
 
     try {
-        const response = await fetch( '/api/download', {
+        const response = await fetch( 'https://tiktok-downloader-iota-seven.vercel.app/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ url })

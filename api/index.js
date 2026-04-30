@@ -25,9 +25,14 @@ app.post('/api/download', async (req, res) => {
         const response = await axios.request(options);
         res.json(response.data);
 
+    }// ... kode bagian atas tetap sama ...
     } catch (error) {
         console.error("Error Detail:", error.message);
-        res.status(500).json({ error: "Gagal mengambil video. Cek API Key atau link video." });
+        // Pastikan selalu mengirim JSON, jangan teks biasa
+        res.status(500).json({ 
+            error: "Gagal mengambil video", 
+            detail: error.message 
+        });
     }
 });
 

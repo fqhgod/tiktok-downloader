@@ -12,23 +12,25 @@ app.post('/api/download', async (req, res) => {
         if (!url) return res.status(400).json({ error: "URL tidak boleh kosong" });
 
         const options = {
-            method: 'POST',
-            url: 'https://tik-tok-video-downloader-api.p.rapidapi.com/vid/index',
-            headers: {
-                'content-type': 'application/x-www-form-urlencoded',
-                'X-RapidAPI-Key': 3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52
-                'X-RapidAPI-Host': 'tik-tok-video-downloader-api.p.rapidapi.com'
+            method: 'GET', // API ini menggunakan GET
+            url: 'https://social-media-video-downloader.p.rapidapi.com/smvd/get/all', 
+            params: {
+                url: url // Kirim link TikTok kamu di sini
             },
-            data: new URLSearchParams({ url: url })
+            headers: {
+                // Key ini saya ambil dari screenshot RapidAPI kamu yang terbaru
+                'X-RapidAPI-Key': '3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52',
+                'X-RapidAPI-Host': 'social-media-video-downloader.p.rapidapi.com'
+            }
         };
 
         const response = await axios.request(options);
+        
+        // Kirim data hasil download ke frontend
         res.json(response.data);
 
-    }// ... kode bagian atas tetap sama ...
     } catch (error) {
         console.error("Error Detail:", error.message);
-        // Pastikan selalu mengirim JSON, jangan teks biasa
         res.status(500).json({ 
             error: "Gagal mengambil video", 
             detail: error.message 

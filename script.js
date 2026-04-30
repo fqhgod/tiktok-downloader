@@ -4,43 +4,40 @@ const resDiv = document.getElementById('result');
 // Pastikan resDiv kosong saat pertama kali halaman dibuka
 resDiv.innerHTML = "";
 
-async function downloadVideo() {
-    const urlInput = document.getElementById('tiktokUrl');
-    const url = urlInput.value.trim(); // .trim() untuk menghapus spasi kosong
+async function cekVideo() {
+    const url = document.getElementById('urlInput').value;
+    const statusElement = document.getElementById('status');
 
-    // 1. Validasi Input: Jika kosong, jangan tampilkan apa-apa
     if (!url) {
-        alert("Masukkan link TikTok dulu ya!");
-        return; 
+        statusElement.innerText = "Masukkan link TikTok dulu!";
+        return;
     }
 
-    // 2. Jika ada link, baru tampilkan loading
-    resDiv.innerHTML = `
-        <div class="loader"></div>
-        <p>sebentar, sedang mengambil videomu...</p>
-    `;
+    statusElement.innerText = "Sedang memproses...";
 
     try {
-        const response = await fetch( 'https://tiktok-downloader-iota-seven.vercel.app/', {
+        // Langsung panggil /api/download tanpa cek localhost
+        const response = await fetch('/api/download', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ url })
         });
 
-        const data = await response.json();
-
-        if (data.videoUrl) {
-            const params = new URLSearchParams({
-                title: data.title,
-                video: data.videoUrl,
-                cover: data.cover
-            });
-            window.location.href = `download.html?${params.toString()}`;
-        } else {
-            resDiv.innerHTML = "<p style='color:red;'>Gagal mengambil data. Cek link kamu.</p>";
+        if (!response.ok) {
+            throw new Error('Server merespon dengan error');
         }
+
+        const data = await response.json();
+        
+        // Simpan data ke localStorage untuk halaman download
+        localStorage.setItem('videoData', JSON.stringify(data));
+        
+        // Pindah ke halaman download
+        window.location.href = 'download.html';
+
     } catch (error) {
-        resDiv.innerHTML = "<p style='color:red;'>Server offline! Jalankan 'node server.js' di terminal.</p>";
+        console.error(error);
+        statusElement.innerText = "Gagal menghubungi server. Pastikan koneksi internet stabil.";
     }
 }
 

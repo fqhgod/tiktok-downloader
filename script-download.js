@@ -16,3 +16,10 @@ if (videoUrl) {
 } else {
     contentDiv.innerHTML = "<p>Data tidak ditemukan.</p>";
 }
+const videoData = JSON.parse(localStorage.getItem('videoData'));
+
+if (videoData && videoData.links) {
+    // API ini biasanya mengirim link dalam array 'links'
+    const downloadUrl = videoData.links[0].link; 
+    document.getElementById('downloadBtn').href = downloadUrl;
+}

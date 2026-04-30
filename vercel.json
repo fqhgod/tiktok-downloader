@@ -6,10 +6,3 @@
   ],
   "cleanUrls": true
 }
-{
-  "dependencies": {
-    "express": "^4.x.x",
-    "axios": "^1.x.x",
-    "cors": "^2.x.x"
-  }
-}

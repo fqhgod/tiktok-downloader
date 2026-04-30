@@ -9,7 +9,7 @@ app.use(express.json());
 app.post('/api/download', async (req, res) => {
     try {
         const { url } = req.body;
-        if (!url) return res.status(400).json({ error: "URL tidak boleh kosong" });
+        if (!url) return res.status(400).json({ error: "URL kosong" });
 
         const options = {
             method: 'GET',
@@ -18,22 +18,22 @@ app.post('/api/download', async (req, res) => {
                 url: url
             },
             headers: {
-                // Key ini sesuai dengan screenshot kamu
-                'X-RapidAPI-Key': '3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52',
-                'X-RapidAPI-Host': 'social-media-video-downloader.p.rapidapi.com'
+                // Gunakan Key dari screenshot kamu
+                'x-rapidapi-key': '3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52',
+                'x-rapidapi-host': 'social-media-video-downloader.p.rapidapi.com'
             }
         };
 
         const response = await axios.request(options);
         
-        // Kirim hasil ke frontend
+        // Pastikan kita mengirim data yang benar ke frontend
         res.json(response.data);
 
     } catch (error) {
-        console.error("Detail Error:", error.message);
+        console.error("Detail Error:", error.response ? error.response.data : error.message);
         res.status(500).json({ 
             error: "Gagal mengambil video", 
-            detail: error.message 
+            message: error.message 
         });
     }
 });

@@ -3,50 +3,52 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 
+// Konfigurasi CORS agar bisa diakses dari frontend mana pun
 app.use(cors());
 app.use(express.json());
 
 app.post('/api/download', async (req, res) => {
     try {
         const { url } = req.body;
+        
+        // 1. Validasi Input
         if (!url) {
             return res.status(400).json({ error: "URL TikTok tidak boleh kosong" });
         }
 
-        // Menyusun konfigurasi axios berdasarkan CURL yang kamu berikan
+        // 2. Konfigurasi Request ke RapidAPI sesuai CURL terbaru
         const options = {
             method: 'GET',
-            // URL utama dengan template query parameter
-            url: `https://social-media-video-downloader.p.rapidapi.com/tiktok/v3/post/details`,
-            params: {
-                url: url // Axios akan otomatis melakukan encoding (seperti %2F, %40)
-            },
+            url: 'https://social-media-video-downloader.p.rapidapi.com/tiktok/v3/post/details',
+            params: { url: url }, // Axios otomatis melakukan encodeURIComponent
             headers: {
                 'Content-Type': 'application/json',
-                'x-rapidapi-host': 'social-media-video-downloader.p.rapidapi.com',
-                'x-rapidapi-key': '3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52'
-            }
+                'x-rapidapi-key': '3552f53cf3msh7e68dad01bdb3d3p1868e4jsn5a72595ccc52',
+                'x-rapidapi-host': 'social-media-video-downloader.p.rapidapi.com'
+            },
+            // Menambah timeout agar server tidak gantung terlalu lama
+            timeout: 10000 
         };
-
-        console.log("Meminta data untuk URL:", url);
 
         const response = await axios.request(options);
         
-        // Kirim hasil data kembali ke frontend
-        res.json(response.data);
+        // 3. Kirim data kembali ke frontend
+        return res.status(200).json(response.data);
 
     } catch (error) {
-        // Log error di dashboard Vercel agar kita tahu penyebab spesifiknya
-        console.error("Detail Error Vercel:", error.response ? error.response.data : error.message);
+        // Log detail error agar bisa dibaca di Dashboard Vercel > Logs
+        console.error("LOG ERROR JEQIKA:", error.response ? JSON.stringify(error.response.data) : error.message);
         
-        const status = error.response ? error.response.status : 500;
-        const message = error.response ? error.response.data : "Internal Server Error";
+        // Mengirim status error yang lebih spesifik ke frontend
+        const statusCode = error.response ? error.response.status : 500;
+        const errorData = error.response ? error.response.data : { message: error.message };
 
-        res.status(status).json({
+        return res.status(statusCode).json({
             error: "Terjadi kesalahan pada server",
-            detail: message
+            detail: errorData
         });
     }
 });
 
+// Penting untuk Vercel: Export aplikasi
 module.exports = app;

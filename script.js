@@ -39,3 +39,11 @@ async function cekVideo() {
         console.error("Detail Error:", error);
     }
 }
+.footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eeeeee;
+    font-size: 14px;
+    color: #888;
+    text-align: center;
+}

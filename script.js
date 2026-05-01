@@ -19,40 +19,30 @@ async function cekVideo() {
         });
 
         const data = await response.json();
-        console.log("Data dari API:", data); // Cek di Console (F12) jika masih error
+        console.log("Data dari API:", data);
 
-        // Pengecekan struktur data yang lebih aman
+        // Memastikan data valid sesuai struktur API Emmanuel
         if (data && data.contents && data.contents.length > 0) {
             const item = data.contents[0];
-            
-            // Ambil metadata & video dengan pengaman (|| {})
-            const metadata = item.metadata || {};
             const video = (item.videos && item.videos.length > 0) ? item.videos[0] : null;
 
             if (video && video.url) {
-                status.innerText = "✅ Video ditemukan!";
-                
-                // Simpan data untuk halaman download.html
+                status.innerText = "✅ Berhasil! Mengalihkan...";
+
+                // 1. Simpan data ke localStorage agar bisa dibaca halaman kedua
                 localStorage.setItem('videoData', JSON.stringify(data));
 
-                // Gunakan gambar default jika metadata.cover tidak ada
-                const thumbnail = metadata.cover || 'https://via.placeholder.com/400x225?text=No+Thumbnail';
-                const title = metadata.title || 'TikTok Video';
+                // 2. PINDAH KE HALAMAN KEDUA (download.html)
+                // Memberi sedikit jeda agar user bisa melihat status "Berhasil"
+                setTimeout(() => {
+                    window.location.href = 'download.html';
+                }, 1000);
 
-                resultDiv.innerHTML = `
-                    <div style="margin-top: 20px; text-align: center;">
-                        <img src="${thumbnail}" alt="thumbnail" style="width:100%; border-radius:12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                        <p style="margin: 15px 0; font-weight: bold; color: #333;">${title}</p>
-                        <a href="${video.url}" target="_blank" class="btn-save" style="display: block; background: #3f88db; color: white; padding: 14px; border-radius: 8px; text-decoration: none; font-weight: bold;">
-                            📥 DOWNLOAD SEKARANG
-                        </a>
-                    </div>
-                `;
             } else {
-                status.innerText = "❌ Gagal mendapatkan link download video.";
+                status.innerText = "❌ Link download tidak ditemukan dalam data.";
             }
         } else {
-            status.innerText = "❌ Video tidak ditemukan. Pastikan link benar dan publik.";
+            status.innerText = "❌ Video tidak ditemukan atau link salah.";
         }
     } catch (error) {
         console.error("Detail Error:", error);

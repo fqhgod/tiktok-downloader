@@ -27,7 +27,7 @@ async function cekVideo() {
             const video = (item.videos && item.videos.length > 0) ? item.videos[0] : null;
 
             if (video && video.url) {
-                status.innerText = "✅ Berhasil! Mengalihkan...";
+                status.innerText = "berhasil mendapat video, tunggu sebentar...";
 
                 // 1. Simpan data ke localStorage agar bisa dibaca halaman kedua
                 localStorage.setItem('videoData', JSON.stringify(data));

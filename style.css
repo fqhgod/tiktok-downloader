@@ -1,101 +1,36 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: sans-serif;
     display: flex;
     justify-content: center;
-    /* Mengubah center ke flex-start agar posisi agak ke atas */
-    align-items: flex-start; 
-    height: 100vh;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f9;
     margin: 0;
-    /* Memberi jarak 5% dari atas layar */
-    padding-top: 5vh; 
-    background: linear-gradient(135deg, #353a5f 0%, #9ebaf3 100%);
-    color: #333;
 }
-
 .container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    /* Mengecilkan padding dari 40px ke 25px */
-    padding: 25px; 
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     text-align: center;
-    width: 90%;
-    /* Mengecilkan lebar maksimal kontainer */
-    max-width: 380px; 
+    width: 350px;
 }
-
-h1 { 
-    color: #3b3b3b; 
-    /* Mengecilkan ukuran tulisan judul */
-    font-size: 1.5rem; 
-    margin-top: 0;
-}
-
-/* --- Sisanya tetap sama sesuai kode asli kamu --- */
-
-.input-group {
-    margin: 20px 0;
-    display: flex;
-    gap: 10px;
-}
-
-input {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    outline: none;
-}
-
-button {
-    padding: 12px 20px;
-    background-color: #222222;
-    color: rgb(255, 255, 255);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-button:hover { background-color: #161616; }
-
-.result-container { margin-top: 25px; }
-
-.video-preview {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 15px;
-}
-
-.btn-save {
-    display: block;
-    background-color: #3f88db;
-    text-decoration: none;
-    color: white;
-    padding: 12px;
-    border-radius: 6px;
-    margin-top: 10px;
-}
-
-:root {
-    --primary: #356cc0;
-    --secondary: #1d1d1d;
-    --dark: #121212;
-}
-
-.loader {
-    border: 4px solid #121212;
-    border-top: 4px solid var(--primary);
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
+.input-group { margin: 20px 0; }
+input { padding: 10px; width: 70%; border: 1px solid #ddd; border-radius: 5px; }
+button { padding: 10px; cursor: pointer; background: #fe2c55; color: white; border: none; border-radius: 5px; }
+.btn-download {
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #25d366;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.footer {
+    margin-top: 25px;
+    font-size: 12px;
+    color: #888;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
 }
